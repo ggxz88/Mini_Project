@@ -5,13 +5,15 @@ const int MAX_NAME = 50;
 PTJ::PTJ() { //인자 없는 생성자
 	id = 0;
 	salary = 0;
+	sal = 0;
 	workplace = new char[MAX_NAME];
 	name = new char[MAX_NAME];
 }
 
-PTJ::PTJ(const char * w, const char * n, int i, int s) { // 인자있는 생성자
+PTJ::PTJ(const char * w, const char * n, int i, int s, float sa) { // 인자있는 생성자
 	id = i;
 	salary = s;
+	sal = sa;
 	workplace = new char[strlen(w)+1];
 	name = new char[strlen(n) + 1];
 	strcpy_s(workplace, strlen(w) + 1, w);
@@ -21,6 +23,7 @@ PTJ::PTJ(const char * w, const char * n, int i, int s) { // 인자있는 생성자
 PTJ::PTJ(const PTJ& obj) { // 깊은 복사 생성자
 	id = obj.id;
 	salary = obj.salary;
+	sal = obj.sal;
 	name = new char[strlen(obj.name) + 1];
 	workplace = new char[strlen(obj.workplace) + 1];
 	strcpy_s(name, strlen(obj.name) + 1, obj.name);
@@ -44,6 +47,7 @@ PTJ & PTJ::operator=(const PTJ & p)
 		strcpy_s(workplace, strlen(p.workplace) + 1, p.workplace);
 		id = p.id;
 		salary = p.salary;
+		sal = p.sal;
 	}
 	return *this;
 }
@@ -68,6 +72,11 @@ char * PTJ::GetName() const
 	return name;
 }
 
+float PTJ::GetSal() const
+{
+	return sal;
+}
+
 void PTJ::SetId(int val)
 {
 	id = val;
@@ -87,6 +96,11 @@ void PTJ::SetName(char * name)
 	strcpy_s(this->name, strlen(name) + 1, name);
 }
 
+void PTJ::SetSal(float val)
+{
+	sal = val;
+}
+
 PTJ_tax::PTJ_tax()
 	:PTJ()
 { // 인자없는 생성자
@@ -95,8 +109,8 @@ PTJ_tax::PTJ_tax()
 	tax = 0;
 }
 
-PTJ_tax::PTJ_tax(const char * w, const char * n, int i, int s, float ic, float fi, float t)
-	:PTJ(w, n, i, s)
+PTJ_tax::PTJ_tax(const char * w, const char * n, int i, int s, float sa, float ic, float fi, float t)
+	:PTJ(w, n, i, s, sa)
 { // 인자있는 생성자
 	incometax = ic;
 	fourinsurance = fi;
@@ -115,88 +129,56 @@ PTJ_tax::~PTJ_tax()
 { // PTJ_tax 소멸자
 }
 
-int PTJ_tax::GetIncome() const
+float PTJ_tax::GetIncome() const
 {
 	return incometax;
 }
 
-int PTJ_tax::GetFour() const
+float PTJ_tax::GetFour() const
 {
 	return fourinsurance;
 }
 
-int PTJ_tax::GetTax() const
+float PTJ_tax::GetTax() const
 {
 	return tax;
 }
 
-void PTJ_tax::SetIncome(int val)
+void PTJ_tax::SetIncome(float val)
 {
 	incometax = val;
 }
 
-void PTJ_tax::SetFour(int val)
+void PTJ_tax::SetFour(float val)
 {
 	fourinsurance = val;
 }
 
-void PTJ_tax::SetTax(int val)
+void PTJ_tax::SetTax(float val)
 {
 	tax = val;
 }
 
-//PTJ_add::PTJ_add()
-//	:PTJ()
-//{ // 인자없는 생성자
-//	addmoney = 0;
-//}
-//
-//PTJ_add::PTJ_add(const char * w, const char * n, int i, int s, float a)
-//	:PTJ(w, n, i, s)
-//{ // 인자있는 생성자
-//	addmoney = a;
-//}
-//
-//PTJ_add::PTJ_add(const PTJ_add & obj)
-//	:PTJ(obj)
-//{ // 깊은 복사 생성자
-//	addmoney = obj.addmoney;
-//}
-//
-//PTJ_add::~PTJ_add()
-//{ // PTJ_add 소멸자
-//}
-//
-//int PTJ_add::GetAdd() const
-//{
-//	return addmoney;
-//}
-//
-//void PTJ_add::SetAdd(int val)
-//{
-//	addmoney = val;
-//}
-
 PTJ_weeklyholiday::PTJ_weeklyholiday()
 	:PTJ()
-{
+{ // 인자없는 생성자
 	weekly_holidaypay = 0;
 }
 
-PTJ_weeklyholiday::PTJ_weeklyholiday(const char * w, const char * n, int i, int s, int wh)
-	:PTJ(w, n, i, s)
-{
+PTJ_weeklyholiday::PTJ_weeklyholiday(const char * w, const char * n, int i, int s, float sa, int wh)
+	:PTJ(w, n, i, s, sa)
+{ // 인자 있는 생성자
 	weekly_holidaypay = wh;
 }
 
 PTJ_weeklyholiday::PTJ_weeklyholiday(const PTJ_weeklyholiday & obj)
 	: PTJ(obj)
-{
+{ // 깊은 복사 생성자
 	weekly_holidaypay = obj.weekly_holidaypay;
 }
 
 PTJ_weeklyholiday::~PTJ_weeklyholiday()
-{
+{ // 소멸자
 }
 
 int PTJ_weeklyholiday::Get_wh() const
@@ -204,7 +186,7 @@ int PTJ_weeklyholiday::Get_wh() const
 	return weekly_holidaypay;
 }
 
-void PTJ_weeklyholiday::SetName(int val)
+void PTJ_weeklyholiday::Set_wh(int val)
 {
 	weekly_holidaypay = val;
 }
